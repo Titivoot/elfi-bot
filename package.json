@@ -4,7 +4,8 @@
   "description": "ElfiBot is a server management bot like identity verification. Spam management, etc.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Titivoot/elfi-bot/issues"
   },
-  "homepage": "https://github.com/Titivoot/elfi-bot#readme"
+  "homepage": "https://github.com/Titivoot/elfi-bot#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0"
+  }
 }

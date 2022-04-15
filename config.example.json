@@ -1,0 +1,15 @@
+{
+    "Bot_Token": "DISCORD_BOT_TOKEN",
+    "Bot_Name": "ElfiBot",
+    "Bot_Version": "0.1",
+    "Activities": [
+        {
+            "content": "Hello",
+            "type": "LISTENING"
+        },
+        {
+            "content": "World",
+            "type": "LISTENING"
+        }
+    ]
+}

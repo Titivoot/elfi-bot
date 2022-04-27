@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/Titivoot/elfi-bot#readme",
   "dependencies": {
+    "colors": "^1.4.0",
+    "discord-hybrid-sharding": "^1.5.3",
     "discord.js": "^13.6.0"
   }
 }

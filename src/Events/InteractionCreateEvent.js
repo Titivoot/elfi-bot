@@ -1,9 +1,11 @@
 module.exports = {
-    eventType: 'interactionCreate',
+    eventName: 'interactionCreate',
     run: async (client, interaction) => {
         if (!interaction.isCommand()) return
         const command = client.commands.get(interaction.commandName)
-        if (!command) return interaction.reply('Error: Command not found.')
+        if (!command) return interaction.deferReply({
+            ephemeral: true
+        })
 
         if (command.ownerOnly) {
             if (!interaction.member.user.id === client.config.ownerID) return interaction.reply('Error: This command is for owners only.')
@@ -69,9 +71,7 @@ module.exports = {
         try {
             command.execute(client, interaction)
         } catch (err) {
-            console.error(err)
+            client.logger.log(String(err), 'error')
         }
     }
-
 }
-  

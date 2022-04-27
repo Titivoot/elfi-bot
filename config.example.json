@@ -2,6 +2,10 @@
     "Bot_Token": "DISCORD_BOT_TOKEN",
     "Bot_Name": "ElfiBot",
     "Bot_Version": "0.1",
+    "Bot_Debug": false,
+    "Bot_totalClusters": "auto",
+    "Bot_shardsPerClusters": "",
+    "Bot_totalShards": "auto",
     "Activities": [
         {
             "content": "Hello",

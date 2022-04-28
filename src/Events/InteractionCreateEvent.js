@@ -1,77 +1,36 @@
 module.exports = {
     eventName: 'interactionCreate',
     run: async (client, interaction) => {
-        if (!interaction.isCommand()) return
-        const command = client.commands.get(interaction.commandName)
-        if (!command) return interaction.deferReply({
-            ephemeral: true
-        })
 
-        if (command.ownerOnly) {
-            if (!interaction.member.user.id === client.config.ownerID) return interaction.reply('Error: This command is for owners only.')
-        }
+        if (!interaction.guild) return interaction.reply({ content: 'Command can only be executed in a discord server', ephemeral: true })
 
-        if (command.userPerms) {
-            if (!client.guilds.cache.get(interaction.guild.id).members.cache.get(interaction.member.id).permissions.has(command.userPerms || [])) {
-                if (command.noUserPermsMessage) {
-                    return interaction.reply(command.noUserPermsMessage)
-                }
-                
-                return interaction.reply({
-                    embeds: [
-                        {
-                            title: 'คุณไม่มีสิทธิ์ใช้งานคำสั่งนี้!',
-                            description: `คุณไม่มีสิทธิ์ : ${command.userPerms}`,
-                            color: "RANDOM",
-                            timestamp: new Date(),
-                            footer: {
-                                text: interaction.user.tag,
-                                icon_url: interaction.user.displayAvatarURL(),
-                            }
-                        }
-                    ]
-                })
+        if (interaction.isCommand()) {
+            const command = client.commands.get(interaction.commandName)
+            client.logger.log(`${interaction.user.tag} (${interaction.user.id}) > /${interaction.commandName}`, 'debug')
+            if (command.ownerOnly) {
+                if (!interaction.member.user.id === client.config.ownerID) return interaction.reply({ content: 'This command is for owners only.', ephemeral: true })
             }
-        }
 
-        if (command.botPerms) {
-            if (!client.guilds.cache.get(interaction.guild.id).members.cache.get(client.user.id).permissions.has(command.botPerms || [])) {
-                if (command.noBotPermsMessage) {
-                    return interaction.reply(command.noBotPermsMessage)
+            if (command.userPerms) {
+                if (!client.guilds.cache.get(interaction.guild.id).members.cache.get(interaction.member.id).permissions.has(command.userPerms || [])) {
+                    if (command.noUserPermsMessage) {
+                        return interaction.reply(command.noUserPermsMessage)
+                    }
+                    return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true })
                 }
-
-                return interaction.reply({
-                    embeds: [
-                        {
-                            title: 'เราไม่มีสิทธิ์ใช้งานคำสั่งนี้!',
-                            description: `เราไม่มีสิทธิ์ : ${command.userPerms}`,
-                            color: "RANDOM",
-                            timestamp: new Date(),
-                            footer: {
-                                text: interaction.user.tag,
-                                icon_url: interaction.user.displayAvatarURL(),
-                            }
-                        }
-                    ]
-                })
             }
-        }
 
-        const args = [];
+            if (command.botPerms) {
+                if (!client.guilds.cache.get(interaction.guild.id).members.cache.get(client.user.id).permissions.has(command.botPerms || [])) {
+                    if (command.noBotPermsMessage) {
+                        return interaction.reply(command.noBotPermsMessage)
+                    }
+                    return interaction.reply({ content: 'The bot does not have permission to use this command.', ephemeral: true })
+                }
+            }
 
-        interaction.options.data.forEach((option) => {
-            if (option.type === "SUB_COMMAND") {
-                if (option.name) args.push(option.name)
-                option.options?.forEach((x) => {
-                    if (x.value) args.push(x.value)
-                })
-            } else if (option.value) args.push(option.value)
-        })
-
-        try {
-            command.execute(client, interaction)
-        } catch (err) {
-            client.logger.log(String(err), 'error')
+            if (command) await command.execute(client, interaction)
+            else return interaction.reply({ content: 'An error has occurred', ephemeral: true })
         }
     }
 }

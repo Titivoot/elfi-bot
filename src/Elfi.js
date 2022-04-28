@@ -1,5 +1,5 @@
 const { Client, Intents } = require('discord.js')
-const Cluster = require("discord-hybrid-sharding");
+const Cluster = require('discord-hybrid-sharding');
 
 const { resolve } = require('path')
 const { promisify } = require('util')

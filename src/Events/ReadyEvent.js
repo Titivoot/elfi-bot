@@ -6,8 +6,8 @@ module.exports = {
         setInterval(() => {
             const hours = new Date().getHours();
             const isDayTime = hours > 6 && hours < 20;
-            if (isDayTime) client.user.setStatus("online");
-            else client.user.setStatus("idle");
+            if (isDayTime) client.user.setStatus('online');
+            else client.user.setStatus('idle');
         }, 30 * 1000);
 
         setInterval(() => {
@@ -17,6 +17,7 @@ module.exports = {
             activityCount += 1;
         }, 10 * 1000);
     
+        client.music.init(client.user.id)
         await client.application.commands.set(client.commands);
         client.logger.log(`${client.user.tag} is Ready.`, 'ready');
     }

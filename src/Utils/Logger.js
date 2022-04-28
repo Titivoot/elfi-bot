@@ -1,4 +1,4 @@
-const colors = require("colors")
+const colors = require('colors')
 
 class Logger {
     static log(content, type='info', newline=true) {
@@ -18,7 +18,7 @@ class Logger {
             case 'debug': {
                 return process.stdout.write(`${`[`.gray}${`${createDateTime()}`.blue}${`]`.gray} ${`[`.gray}${`${type.toLocaleUpperCase()}`.grey}${`]`.gray} ${`${content}`.white} ${newline ? '\n': ''}`)
             }
-            default: throw new TypeError("Logger type must be either warn, ready, info or error.")
+            default: throw new TypeError('Logger type must be either warn, ready, info or error.')
         }
     }
 }

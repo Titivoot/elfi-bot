@@ -3,7 +3,7 @@ module.exports = {
     description: 'ตรวจสอบความหน่วงของบอท',
     options: [],
     execute: async (client, interaction) => {
-        const startDate = Date.now();
+        const startDate = Date.now()
         await interaction.reply({
             embeds: [
                 {
@@ -17,9 +17,10 @@ module.exports = {
                     },
                 },
             ],
+            ephemeral: true
         })
   
-        const endDate = Date.now();
+        const endDate = Date.now()
         interaction.editReply({
             embeds: [
                 {
@@ -33,7 +34,8 @@ module.exports = {
                     },
                 },
             ],
-        });
+            ephemeral: true
+        })
     },
-};
+}
   

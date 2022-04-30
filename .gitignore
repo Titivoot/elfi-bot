@@ -12,3 +12,5 @@ config.json
 #Lavalink log and config
 Lavalink/application.yml
 Lavalink/logs/
+
+.env

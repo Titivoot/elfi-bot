@@ -22,11 +22,12 @@ class Elfi extends Client {
         })
 
         this.config = require(resolve('./config'))
+        this.prisma = require(resolve('./src/Utils/Prisma'))
         this.logger = require(resolve('./src/Utils/Logger'))
         this.cluster = new Cluster.Client(this)
 
         this.loadHandlers()
-
+        
         this.login()
     }
 

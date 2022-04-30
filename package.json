@@ -18,9 +18,13 @@
   },
   "homepage": "https://github.com/Titivoot/elfi-bot#readme",
   "dependencies": {
+    "@prisma/client": "^3.13.0",
     "colors": "^1.4.0",
     "discord-hybrid-sharding": "^1.5.3",
     "discord.js": "^13.6.0",
     "erela.js": "^2.3.3"
+  },
+  "devDependencies": {
+    "prisma": "^3.13.0"
   }
 }

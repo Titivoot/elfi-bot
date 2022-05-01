@@ -9,7 +9,7 @@ module.exports = {
             const command = client.commands.get(interaction.commandName)
 
             // Debug Log 
-            if(client.config.Bot_Debug)
+            if(client.config.Bot_Debug) {
                 client.logger.log(`${interaction.user.tag} (${interaction.user.id}) > /${interaction.commandName}`, 'debug')
             }
 

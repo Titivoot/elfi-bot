@@ -1,9 +1,14 @@
+let cmdCooldown = {}
+
 module.exports = {
     eventName: 'interactionCreate',
     run: async (client, interaction) => {
 
         // Use commands only on the server.
-        if (!interaction.guild) return interaction.reply({ content: 'Command can only be executed in a discord server', ephemeral: true })
+        if (!interaction.guild) return interaction.reply({
+            content: 'This command is only available on a server!',
+            ephemeral: true
+        })
 
         if (interaction.isCommand()) {
             const command = client.commands.get(interaction.commandName)
@@ -25,12 +30,15 @@ module.exports = {
             if (command.userPerms) {
                 let needUserPerms = []
                 command.userPerms.forEach(perms => {
-                    if(!client.guilds.cache.get(interaction.guild.id).members.cache.get(client.user.id).permissions.has(perms || [])) {
+                    if(!client.guilds.cache.get(interaction.guild.id).members.cache.get(interaction.member.id).permissions.has(perms || [])) {
                         needUserPerms.push(perms)
                     }
                 })
                 if(needUserPerms.length > 0) {
-                    return interaction.reply(`You need the following permissions to execute this command: ${needUserPerms.map((p) => `\`${p}\``).join(", ")}`)
+                    return interaction.reply({
+                        content: `You need the following permissions to execute this command: ${needUserPerms.map((p) => `\`${p}\``).join(", ")}`,
+                        ephemeral: true
+                    })
                 }
             }
 
@@ -43,13 +51,38 @@ module.exports = {
                     }
                 })
                 if(needBotPerms.length > 0) {
-                    return interaction.reply(`I need the following permissions to execute this command: ${needBotPerms.map((p) => `\`${p}\``).join(", ")}`)
+                    return interaction.reply({
+                        content: `I need the following permissions to execute this command: ${needBotPerms.map((p) => `\`${p}\``).join(", ")}`,
+                        ephemeral: true
+                    })
                 }
             }
 
+            // Cooldown Commands
+
+            let uCooldown = cmdCooldown[interaction.member.id]
+            if(!uCooldown){
+                cmdCooldown[interaction.member.id] = {}
+                uCooldown = cmdCooldown[interaction.member.id]
+            }
+            const time = uCooldown[command.name] || 0
+            if(time && (time > Date.now())){
+                return interaction.reply({
+                    content: `You must wait **${Math.ceil((time-Date.now())/1000)}** second(s) to be able to run this command again!`,
+                    ephemeral: true
+                })
+            }
+            cmdCooldown[interaction.member.id][command.name] = Date.now() + command.cooldown
+
             // Execute Commands
-            if (command) await command.execute(client, interaction)
-            else return interaction.reply({ content: 'An error has occurred', ephemeral: true })
+            if (command) {
+                await command.execute(client, interaction)
+            } else {
+                return interaction.reply({
+                    content: 'Something went wrong... Please retry again later!',
+                    ephemeral: true
+                })
+            }
         }
     }
 }

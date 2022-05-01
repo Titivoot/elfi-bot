@@ -1,11 +1,6 @@
 module.exports = {
     name: 'play',
     description: 'คำสั่งเปิดเพลง',
-    botPerms: [
-        "CONNECT",
-        "SPEAK",
-        "USE_VAD"
-    ],
     options: [
         {
             name: 'music',
@@ -14,6 +9,13 @@ module.exports = {
             required: true
         }
     ],
+    userPerms: [],
+    botPerms: [
+        "CONNECT",
+        "SPEAK",
+        "USE_VAD"
+    ],
+    cooldown: 2000,
     execute: async (client, interaction) => {
         const search = interaction.options.getString('music');
         const channel = interaction.member.voice?.channel;

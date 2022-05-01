@@ -2,6 +2,9 @@ module.exports = {
     name: 'ping',
     description: 'ตรวจสอบความหน่วงของบอท',
     options: [],
+    userPerms: [],
+    botPerms: [],
+    cooldown: 5000,
     execute: async (client, interaction) => {
         const startDate = Date.now()
         await interaction.reply({

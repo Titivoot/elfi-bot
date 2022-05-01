@@ -1,6 +1,11 @@
 module.exports = {
     name: 'play',
     description: 'คำสั่งเปิดเพลง',
+    botPerms: [
+        "CONNECT",
+        "SPEAK",
+        "USE_VAD"
+    ],
     options: [
         {
             name: 'music',

@@ -1,6 +1,11 @@
 module.exports = {
     name: 'skip',
     description: 'Skip Music',
+    botPerms: [
+        "CONNECT",
+        "SPEAK",
+        "USE_VAD"
+    ],
     options: [],
     execute: async (client, interaction) => {
         const channel = interaction.member.voice?.channel;
